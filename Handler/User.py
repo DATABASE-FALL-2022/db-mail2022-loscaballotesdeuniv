@@ -83,7 +83,7 @@ class UserHandler:
         password = json['password']
         premiumuser = json['premiumuser']
         isfriend = json['isfriend']
-        if firstname and lastname and phonenumber and date_of_birth and email and password and premiumuserv and isfriend:
+        if firstname and lastname and phonenumber and date_of_birth and email and password and premiumuser and isfriend:
             dao = UserDao()
             user_id = dao.insert(firstname, lastname, phonenumber, date_of_birth, email, password, premiumuser, isfriend)
             result = self.build_user_attributes(user_id, firstname, lastname, phonenumber, date_of_birth,
