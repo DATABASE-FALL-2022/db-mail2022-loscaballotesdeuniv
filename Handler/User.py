@@ -15,6 +15,7 @@ class UserHandler:
         result['isfriend'] = row[8]
         return result
 
+
     def build_email_dict(self, row):
         result = {}
         result['user_id'] = row[0]
@@ -50,44 +51,52 @@ class UserHandler:
             result_list.append(result)
         return jsonify(Users=result_list)
 
-    def insertUser(self, form):
+    def getAllUsersEmails(self):
+        dao = UserDao()
+        emails_list = dao.getAllUsersEmails()
+        return jsonify(emails_list)
+
+
+    def addNewUser(self, form):
         print("form: ", form)
         if len(form) != 8:
-            return jsonify(Error = "Malformed post request"), 400
-        else:
-            firstname = json['firstname']
-            lastname = json['lastname']
-            phonenumber = json['phonenumber']
-            date_of_birth = json['date_of_birth']
-            email = json['email']
-            password = json['password']
-            premiumuser = json['premiumuser']
-            isfriend = json['isfriend']
-            if firstname and lastname and phonenumber and date_of_birth and email and password and premiumuserv and isfriend:
+            return jsonify(Error="Malformed post request"), 400
+            firstname = form['firstname']
+            lastname = form['lastname']
+            phone_number = form['phone_number']
+            date_of_birth = form['date_of_birth']
+            email = form['email']
+            password = form['password']
+            premiumuser = form['premiumuser']
+            isfriend = form['isfriend']
+            if firstname and lastname and phonenumber and date_of_birth and \
+                    email and password and premiumuser and isfriend:
                 dao = UserDao()
-                user_id = dao.insert(firstname, lastname, phonenumber, date_of_birth, email, password, premiumuser,
-                                     isfriend)
+                user_id = dao.insertNewUser(firstname, lastname, phonenumber,
+                                            date_of_birth, email, password, premiumuser,isfriend)
+
                 result = self.build_user_attributes(user_id, firstname, lastname, phonenumber, date_of_birth,
                                                     email, password, premiumuser, isfriend)
-                return jsonify(User=result), 201
+                json["user_id"] = user_id
+                return jsonify(json), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def insertUserJson(self, json):
-        user_id = json['user_id']
+
+    def addNewUserJson(self, json):
         firstname = json['firstname']
         lastname = json['lastname']
-        phonenumber = json['phonenumber']
+        phone_number = json['phone_number']
         date_of_birth = json['date_of_birth']
         email = json['email']
         password = json['password']
         premiumuser = json['premiumuser']
         isfriend = json['isfriend']
-        if firstname and lastname and phonenumber and date_of_birth and email and password and premiumuser and isfriend:
+
+        if firstname and lastname and phone_number and date_of_birth and email and password and premiumuser and isfriend:
             dao = UserDao()
-            user_id = dao.insert(firstname, lastname, phonenumber, date_of_birth, email, password, premiumuser, isfriend)
-            result = self.build_user_attributes(user_id, firstname, lastname, phonenumber, date_of_birth,
-                                                email, password, premiumuser, isfriend)
+            user_id = dao.insertNewUser(firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend)
+            result = self.build_user_attributes(user_id, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend)
             return jsonify(User=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400

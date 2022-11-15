@@ -19,4 +19,22 @@ class UserDao:
             result.append(row)
         return result
 
+    def getAllUsersEmails(self):
+        cursor = self.conn.cursor()
+        query = "SELECT email FROM users;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO users(firstname, lastname, phone_number, date_of_birth, email, password, " \
+                "premiumuser, isfriend) ""VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning user_id;"
+        cursor.execute(query, (firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend,))
+        user_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return user_id
+
 
