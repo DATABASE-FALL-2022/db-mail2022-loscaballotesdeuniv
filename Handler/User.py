@@ -28,6 +28,14 @@ class UserHandler:
         result['wasdeleted'] = row[7]
         return result
 
+    def build_folder_dict(self, row):
+        result = {}
+        result['folderid'] = row[0]
+        result['user_id'] = row[1]
+        result['eid'] = row[2]
+        result['fdname'] = row[3]
+        return result
+
     def build_user_attributes(self, user_id, firstname, lastname, phone_number, date_of_birth, email, password,
                               premiumuser, isfriend):
         result = {}
@@ -56,6 +64,14 @@ class UserHandler:
         emails_list = dao.getAllUsersEmails()
         return jsonify(emails_list)
 
+    def getAllUsersFolders(self):
+        dao = UserDao()
+        folder_list = dao.getAllFolders()
+        result_list = []
+        for row in folder_list:
+            result = self.build_folder_dict(row)
+            result_list.append(result)
+        return jsonify(Folders=result_list)
 
     def addNewUser(self, form):
         print("form: ", form)

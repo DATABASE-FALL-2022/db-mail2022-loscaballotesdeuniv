@@ -22,5 +22,9 @@ def getAllUsers():
 def getAllUserEmails():
     return UserHandler().getAllUsersEmails()
 
+@app.route('/users/folders', methods=['GET'])
+def getAllUserFolders():
+    return UserHandler().getAllUsersFolders()
+
 if __name__ == '__main__':
     app.run()
