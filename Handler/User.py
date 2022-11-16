@@ -64,7 +64,7 @@ class UserHandler:
         emails_list = dao.getAllUsersEmails()
         return jsonify(emails_list)
 
-    def getAllUsersFolders(self):
+    def getAllFolders(self):
         dao = UserDao()
         folder_list = dao.getAllFolders()
         result_list = []
