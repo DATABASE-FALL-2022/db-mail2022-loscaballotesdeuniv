@@ -26,5 +26,18 @@ def getAllUserEmails():
 def getAllFolders():
     return UserHandler().getAllFolders()
 
+
+
+@app.route('/users/emails/delete/<int:user_id>/<string:ename>', methods=['GET', 'DELETE'])
+def getUserEmailsByIDENAME(user_id, ename):
+    if request.method == 'GET':
+        return UserHandler().getUserEmailsByIDENAME(user_id, ename)
+    elif request.method == 'DELETE':
+        return UserHandler().deleteEmail(user_id, ename)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+
 if __name__ == '__main__':
     app.run()

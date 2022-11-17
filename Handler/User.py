@@ -26,6 +26,7 @@ class UserHandler:
         result['emailtype'] = row[5]
         result['isread'] = row[6]
         result['wasdeleted'] = row[7]
+        result['recipientid'] = row[8]
         return result
 
     def build_folder_dict(self, row):
@@ -116,3 +117,23 @@ class UserHandler:
             return jsonify(User=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
+
+
+
+    def getUserEmailsByIDENAME(self, user_id, ename):
+        dao = UserDao()
+        emails_list = dao.getUserEmailsByIDENAME(user_id, ename)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_dict(row)
+            result_list.append(result)
+        return jsonify(Emails=result_list)
+
+    def deleteEmail(self, user_id, ename):
+        dao = UserDao()
+        if not dao.getUserEmailsByIDENAME(user_id, ename):
+            return jsonify(Error = "Email not found."), 404
+        else:
+            dao.delete(user_id, ename)
+            return jsonify(DeleteStatus = "OK"), 200
+
