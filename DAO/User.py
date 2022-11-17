@@ -36,6 +36,14 @@ class UserDao:
         for row in cursor:
             result.append(row)
         return result
+    def getAllUsersCreditCards(self):
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM creditcard"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend):
         cursor = self.conn.cursor()

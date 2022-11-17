@@ -27,6 +27,10 @@ def getAllFolders():
     return UserHandler().getAllFolders()
 
 
+@app.route('/users/creditcards', methods=['GET'])
+def getAllUserCreditCards():
+    return UserHandler().getAllUsersCreditCards()
+
 
 @app.route('/users/emails/delete/<int:user_id>/<string:ename>', methods=['GET', 'DELETE'])
 def getUserEmailsByIDENAME(user_id, ename):
@@ -36,6 +40,7 @@ def getUserEmailsByIDENAME(user_id, ename):
         return UserHandler().deleteEmail(user_id, ename)
     else:
         return jsonify(Error="Method not allowed."), 405
+
 
 
 
