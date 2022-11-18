@@ -8,7 +8,7 @@ class UserDao:
                                                             pg_config['passwd'],
                                                             pg_config['port'],
                                                             pg_config['host'])
-        self.conn = psycopg2._connect(connection_url)
+        self.conn = psycopg2.connect(connection_url)
 
     def getAllUsers(self):
         cursor = self.conn.cursor()
@@ -19,31 +19,10 @@ class UserDao:
             result.append(row)
         return result
 
-    def getAllUsersEmails(self):
-        cursor = self.conn.cursor()
-        query = "SELECT email FROM users;"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
 
-    def getAllFolders(self):
-        cursor = self.conn.cursor()
-        query = "SELECT * FROM folders"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-    def getAllUsersCreditCards(self):
-        cursor = self.conn.cursor()
-        query = "SELECT * FROM creditcard"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
+
+
+
 
     def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend):
         cursor = self.conn.cursor()
@@ -60,13 +39,4 @@ class UserDao:
         cursor.execute(query, (user_id, ename,))
         self.conn.commit()
         return ename
-
-    def getUserEmailsByIDENAME(self, user_id, ename):
-        cursor = self.conn.cursor()
-        query = "SELECT * FROM email where user_id = %s and ename = %s;"
-        cursor.execute(query, (user_id, ename,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
 
