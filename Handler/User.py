@@ -2,6 +2,7 @@ from flask import jsonify
 from DAO.User import UserDao
 
 class UserHandler:
+
     def build_user_dict(self, row):
         result = {}
         result['user_id'] = row[0]
@@ -49,6 +50,12 @@ class UserHandler:
         result['password'] = password
         result['premiumuser'] = premiumuser
         result['isfriend'] = isfriend
+        return result
+
+    def build_isfriend_dict(self, row):
+        result = {}
+        result['user_id'] = row[0]
+        result['friend_id'] = row[1]
         return result
 
     def getAllUsers(self):
@@ -137,3 +144,33 @@ class UserHandler:
             dao.delete(user_id, ename)
             return jsonify(DeleteStatus = "OK"), 200
 
+
+    def getAllUserFriends(self, friend_id):
+        dao = UserDao()
+        friends_list = dao.getAllUserFriends(friend_id)
+        return jsonify(Friends=friends_list)
+
+    #def getAllUserFriends(self, friend_id):
+    #    dao = UserDao()
+    #    friends_list = dao.getAllUserFriends(friend_id)
+    #    result_list = []
+    #    for row in friends_list:
+    #        result = self.build_isfriend_dict(row)
+    #        result_list.append(result)
+    #    return jsonify(Friends=result_list)
+
+    def addNewFriendByFriendID(self, json):
+        user_id = json['user_id']
+        friend_id = json['friend_id']
+        dao = UserDao()
+        dao.manageFriends(user_id, friend_id)
+        return jsonify("FRIEND RELATIONSHIP MADE SUCCESSFULLY"), 201
+
+
+    def deleteFriendByFriendID(self, user_id, friend_id):
+        dao = UserDao()
+        result = dao.deleteFriendByFriendID(user_id, friend_id)
+        if result:
+            return jsonify("FRIEND RELATIONSHIP HAS BEEN DELETED SUCCESSFULLY"), 200
+        else:
+            return jsonify("NOT FOUND"), 404

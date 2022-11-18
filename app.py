@@ -37,7 +37,29 @@ def getUserEmailsByIDENAME(user_id, ename):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+@app.route('/users/friends/<int:friend_id>', methods=['GET'])
+def manage_friends(friend_id):
+    if request.method == 'GET':
+        return UserHandler().getAllUserFriends(friend_id)
+    else:
+        return jsonify(Error="Method not allowed."), 405
 
+@app.route('/users/friends', methods=['POST'])
+def addNewFriend():
+    if request.method == 'POST':
+        return UserHandler().addNewFriendByFriendID(request.json)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
+@app.route('/users/<int:user_id>/friends/<int:friend_id>/delete', methods=['DELETE'])
+def deleteFriendByFriendID(user_id, friend_id):
+    if request.method == 'DELETE':
+        return UserHandler().deleteFriendByFriendID(user_id, friend_id)
+    else:
+        return jsonify(Error="Method not allowed."), 405
 
 if __name__ == '__main__':
     app.run()
+
+
