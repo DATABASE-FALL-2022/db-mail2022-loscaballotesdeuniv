@@ -134,6 +134,36 @@ class UserHandler:
         if not dao.getUserEmailsByIDENAME(user_id, ename):
             return jsonify(Error = "Email not found."), 404
         else:
-            dao.delete(user_id, ename)
+            dao.deleteEmail(user_id, ename)
             return jsonify(DeleteStatus = "OK"), 200
 
+    def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, isread, wasdeleted, recipientid):
+        result = {}
+        result['user_id'] = user_id
+        result['eid'] = eid
+        result['ename'] = ename
+        result['subject'] = subject
+        result['body'] = body
+        result['emailtype'] = emailtype
+        result['isread'] = isread
+        result['wasdeleted'] = wasdeleted
+        result['recipientid'] = recipientid
+        return result
+
+    def createEmailJson(self, json):
+        user_id = json['user_id']
+        ename = json['ename']
+        subject = json['subject']
+        body = json['body']
+        emailtype = json['emailtype']
+        isread = json['isread']
+        wasdeleted = json['wasdeleted']
+        recipientid = json['recipientid']
+
+        if user_id and ename and subject and body and emailtype and isread and wasdeleted and recipientid:
+            dao = UserDao()
+            eid = dao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid)
+            result = self.build_email_attributes(eid, user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid)
+            return jsonify(Email=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
