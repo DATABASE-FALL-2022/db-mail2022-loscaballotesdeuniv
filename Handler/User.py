@@ -167,3 +167,31 @@ class UserHandler:
             return jsonify(Email=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
+
+        def build_isfriend_dict(self, row):
+            result = {}
+            result['user_id'] = row[0]
+            result['friend_id'] = row[1]
+            return result
+
+    def getAllUserFriends(self, friend_id):
+        dao = UserDao()
+        friends_list = dao.getAllUserFriends(friend_id)
+        return jsonify(Friends=friends_list)
+
+    def addNewFriendByFriendID(self, json):
+        user_id = json['user_id']
+        friend_id = json['friend_id']
+        dao = UserDao()
+        dao.manageFriends(user_id, friend_id)
+        return jsonify("FRIEND RELATIONSHIP MADE SUCCESSFULLY"), 201
+
+    def deleteFriendByFriendID(self, user_id, friend_id):
+        dao = UserDao()
+        result = dao.deleteFriendByFriendID(user_id, friend_id)
+        if result:
+            return jsonify("FRIEND RELATIONSHIP HAS BEEN DELETED SUCCESSFULLY"), 200
+        else:
+            return jsonify("NOT FOUND"), 404
+
+
