@@ -2,14 +2,13 @@ from Config.dbconfig import pg_config
 import psycopg2
 
 class UserDao:
-
     def __init__ (self):
         connection_url = "dbname=%s user=%s password=%s port=%s host=%s " % (pg_config['dbname'],
                                                             pg_config['user'],
                                                             pg_config['passwd'],
                                                             pg_config['port'],
                                                             pg_config['host'])
-        self.conn = psycopg2.connect(connection_url)
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllUsers(self):
         cursor = self.conn.cursor()
@@ -20,6 +19,23 @@ class UserDao:
             result.append(row)
         return result
 
+    def getAllUsersEmails(self):
+        cursor = self.conn.cursor()
+        query = "SELECT email FROM users;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllFolders(self):
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM folders"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend):
         cursor = self.conn.cursor()
@@ -46,3 +62,11 @@ class UserDao:
             result.append(row)
         return result
 
+    def insertNewEmail(self, user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO email(user_id, ename, subject, body, emailtype, isread, wasdeleted, " \
+                "recipientid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning eid;"
+        cursor.execute(query, (user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid,))
+        eid = cursor.fetchone()[0]
+        self.conn.commit()
+        return eid

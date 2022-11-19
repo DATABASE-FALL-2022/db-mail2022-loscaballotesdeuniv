@@ -18,9 +18,12 @@ def getAllUsers():
     elif request.method == 'GET':
         return UserHandler().getAllUsers()
 
-@app.route('/users/emails', methods=['GET'])
+@app.route('/users/emails', methods=['GET', 'POST'])
 def getAllUserEmails():
-    return UserHandler().getAllUsersEmails()
+    if request.method == 'GET':
+        return UserHandler().getAllUsersEmails()
+    elif request.method == 'POST':
+        return UserHandler().createEmailJson(request.json)
 
 @app.route('/users/folders', methods=['GET'])
 def getAllFolders():
@@ -38,6 +41,8 @@ def getUserEmailsByIDENAME(user_id, ename):
         return jsonify(Error="Method not allowed."), 405
 
 
-
 if __name__ == '__main__':
     app.run()
+
+
+
