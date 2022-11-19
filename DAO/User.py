@@ -20,24 +20,6 @@ class UserDao:
             result.append(row)
         return result
 
-    def getAllUsersEmails(self):
-        cursor = self.conn.cursor()
-        query = "SELECT email FROM users;"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
-    def getAllFolders(self):
-        cursor = self.conn.cursor()
-        query = "SELECT * FROM folders"
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
-
     def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend):
         cursor = self.conn.cursor()
         query = "INSERT INTO users(firstname, lastname, phone_number, date_of_birth, email, password, " \
@@ -47,27 +29,39 @@ class UserDao:
         self.conn.commit()
         return user_id
 
-    def deleteEmail(self, user_id, ename):
+    def manageFriends(self, user_id, friend_id):
         cursor = self.conn.cursor()
-        query = "delete from email where user_id = %s and ename = %s;"
-        cursor.execute(query, (user_id, ename,))
+        query = "INSERT INTO isFriend(user_id, friend_id) values(%s,%s)"
+        cursor.execute(query, (user_id, friend_id,))
         self.conn.commit()
-        return ename
+        query = "INSERT INTO isFriend(user_id, friend_id) values(%s,%s)"
+        cursor.execute(query, (friend_id, user_id,))
+        self.conn.commit()
+        cursor.close()
+        return True
 
-    def getUserEmailsByIDENAME(self, user_id, ename):
+    def getAllUserFriends(self, user_id):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM email where user_id = %s and ename = %s;"
-        cursor.execute(query, (user_id, ename,))
+        query = "SELECT email FROM isFriend NATURAL INNER JOIN Users where friend_id = %s;"
+        cursor.execute(query, (user_id,))
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def insertNewEmail(self, user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid):
+    def deleteFriendByFriendID(self, user_id, friend_id):
         cursor = self.conn.cursor()
-        query = "INSERT INTO email(user_id, ename, subject, body, emailtype, isread, wasdeleted, " \
-                "recipientid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning eid;"
-        cursor.execute(query, (user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid,))
-        eid = cursor.fetchone()[0]
+        query = "DELETE FROM isFriend where user_id = %s AND friend_id = %s;"
+        cursor.execute(query, (user_id, friend_id,))
+        # determine affected rows
+        affected_rows = cursor.rowcount
         self.conn.commit()
-        return eid
+        cursor = self.conn.cursor()
+        query = "DELETE FROM isFriend where user_id = %s AND friend_id = %s;"
+        cursor.execute(query, (friend_id, user_id,))
+        affected_rows2 = cursor.rowcount
+        self.conn.commit()
+        # if affected rows == 0, the part was not found and hence not deleted
+        # otherwise, it was deleted, so check if affected_rows != 0
+        cursor.close()
+        return affected_rows != 0 and affected_rows2 != 0
