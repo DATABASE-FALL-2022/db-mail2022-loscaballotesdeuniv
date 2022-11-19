@@ -1,52 +1,48 @@
 from flask import Flask, jsonify, request, send_file
-
 from Handler.User import UserHandler
-from Handler.Folder import FolderHandler
-from Handler.Email import EmailHandler
-from Handler.CreditCard import CreditCardHandler
 
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/loscaballotesdeuniv')
+@app.route('/')
 def greeting():
-    return "Los Caballotes de la Universidad Present RUMail Services"
+    return "Los Caballotes de la Universidad"
 
 
-@app.route('/loscaballotesdeuniv/users', methods=['GET', 'POST'])
+@app.route('/users', methods=['GET', 'POST'])
 def getAllUsers():
     if request.method == 'POST':
         return UserHandler().addNewUserJson(request.json)
     elif request.method == 'GET':
         return UserHandler().getAllUsers()
 
-@app.route('/loscaballotesdeuniv/emails', methods=['GET'])
+@app.route('/users/emails', methods=['GET', 'POST'])
 def getAllUserEmails():
-    return EmailHandler().getAllUsersEmails()
+    if request.method == 'GET':
+        return UserHandler().getAllUsersEmails()
+    elif request.method == 'POST':
+        return UserHandler().createEmailJson(request.json)
 
-@app.route('/loscaballotesdeuniv/folders', methods=['GET'])
+@app.route('/users/folders', methods=['GET'])
 def getAllFolders():
-    return FolderHandler().getAllFolders()
+    return UserHandler().getAllFolders()
 
 
-@app.route('/loscaballotesdeuniv/creditcards', methods=['GET'])
-def getAllUserCreditCards():
-    return CreditCardHandler().getAllUsersCreditCards()
 
-
-@app.route('/loscaballotesdeuniv/users/emails/<int:user_id>/<string:ename>', methods=['GET', 'DELETE'])
+@app.route('/users/emails/delete/<int:user_id>/<string:ename>', methods=['GET', 'DELETE'])
 def getUserEmailsByIDENAME(user_id, ename):
     if request.method == 'GET':
-        return EmailHandler().getUserEmailsByIDENAME(user_id, ename)
+        return UserHandler().getUserEmailsByIDENAME(user_id, ename)
     elif request.method == 'DELETE':
-        return EmailHandler().deleteEmail(user_id, ename)
+        return UserHandler().deleteEmail(user_id, ename)
     else:
         return jsonify(Error="Method not allowed."), 405
 
 
-
-
 if __name__ == '__main__':
     app.run()
+
+
+
