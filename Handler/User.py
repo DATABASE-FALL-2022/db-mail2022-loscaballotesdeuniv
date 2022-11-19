@@ -2,6 +2,7 @@ from flask import jsonify
 from DAO.User import UserDao
 
 class UserHandler:
+
     def build_user_dict(self, row):
         result = {}
         result['user_id'] = row[0]
@@ -13,28 +14,6 @@ class UserHandler:
         result['password'] = row[6]
         result['premiumuser'] = row[7]
         result['isfriend'] = row[8]
-        return result
-
-
-    def build_email_dict(self, row):
-        result = {}
-        result['user_id'] = row[0]
-        result['eid'] = row[1]
-        result['ename'] = row[2]
-        result['subject'] = row[3]
-        result['body'] = row[4]
-        result['emailtype'] = row[5]
-        result['isread'] = row[6]
-        result['wasdeleted'] = row[7]
-        result['recipientid'] = row[8]
-        return result
-
-    def build_folder_dict(self, row):
-        result = {}
-        result['folderid'] = row[0]
-        result['user_id'] = row[1]
-        result['eid'] = row[2]
-        result['fdname'] = row[3]
         return result
 
     def build_user_attributes(self, user_id, firstname, lastname, phone_number, date_of_birth, email, password,
@@ -59,20 +38,6 @@ class UserHandler:
             result = self.build_user_dict(row)
             result_list.append(result)
         return jsonify(Users=result_list)
-
-    def getAllUsersEmails(self):
-        dao = UserDao()
-        emails_list = dao.getAllUsersEmails()
-        return jsonify(emails_list)
-
-    def getAllFolders(self):
-        dao = UserDao()
-        folder_list = dao.getAllFolders()
-        result_list = []
-        for row in folder_list:
-            result = self.build_folder_dict(row)
-            result_list.append(result)
-        return jsonify(Folders=result_list)
 
     def addNewUser(self, form):
         print("form: ", form)
@@ -119,51 +84,28 @@ class UserHandler:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
 
+    def build_isfriend_dict(self, row):
+            result = {}
+            result['user_id'] = row[0]
+            result['friend_id'] = row[1]
+            return result
 
-    def getUserEmailsByIDENAME(self, user_id, ename):
+    def getAllUserFriends(self, friend_id):
         dao = UserDao()
-        emails_list = dao.getUserEmailsByIDENAME(user_id, ename)
-        result_list = []
-        for row in emails_list:
-            result = self.build_email_dict(row)
-            result_list.append(result)
-        return jsonify(Emails=result_list)
+        friends_list = dao.getAllUserFriends(friend_id)
+        return jsonify(Friends=friends_list)
 
-    def deleteEmail(self, user_id, ename):
-        dao = UserDao()
-        if not dao.getUserEmailsByIDENAME(user_id, ename):
-            return jsonify(Error = "Email not found."), 404
-        else:
-            dao.deleteEmail(user_id, ename)
-            return jsonify(DeleteStatus = "OK"), 200
-
-    def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, isread, wasdeleted, recipientid):
-        result = {}
-        result['user_id'] = user_id
-        result['eid'] = eid
-        result['ename'] = ename
-        result['subject'] = subject
-        result['body'] = body
-        result['emailtype'] = emailtype
-        result['isread'] = isread
-        result['wasdeleted'] = wasdeleted
-        result['recipientid'] = recipientid
-        return result
-
-    def createEmailJson(self, json):
+    def addNewFriendByFriendID(self, json):
         user_id = json['user_id']
-        ename = json['ename']
-        subject = json['subject']
-        body = json['body']
-        emailtype = json['emailtype']
-        isread = json['isread']
-        wasdeleted = json['wasdeleted']
-        recipientid = json['recipientid']
+        friend_id = json['friend_id']
+        dao = UserDao()
+        dao.manageFriends(user_id, friend_id)
+        return jsonify("FRIEND RELATIONSHIP MADE SUCCESSFULLY"), 201
 
-        if user_id and ename and subject and body and emailtype and isread and wasdeleted and recipientid:
-            dao = UserDao()
-            eid = dao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid)
-            result = self.build_email_attributes(eid, user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid)
-            return jsonify(Email=result), 201
+    def deleteFriendByFriendID(self, user_id, friend_id):
+        dao = UserDao()
+        result = dao.deleteFriendByFriendID(user_id, friend_id)
+        if result:
+            return jsonify("FRIEND RELATIONSHIP HAS BEEN DELETED SUCCESSFULLY"), 200
         else:
-            return jsonify(Error="Unexpected attributes in post request"), 400
+            return jsonify("NOT FOUND"), 404

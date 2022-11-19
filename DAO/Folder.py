@@ -3,6 +3,7 @@ import psycopg2
 
 class FolderDao:
 
+
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s port=%s host=%s " % (pg_config['dbname'],
                                                             pg_config['user'],

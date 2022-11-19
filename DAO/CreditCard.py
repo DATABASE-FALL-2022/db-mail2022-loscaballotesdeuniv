@@ -21,3 +21,4 @@ class CreditCardDao:
         for row in cursor:
             result.append(row)
         return result
+

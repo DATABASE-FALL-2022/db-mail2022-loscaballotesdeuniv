@@ -25,3 +25,4 @@ class CreditCardHandler:
             result_list.append(result)
         return jsonify(CreditCards=result_list)
 
+
