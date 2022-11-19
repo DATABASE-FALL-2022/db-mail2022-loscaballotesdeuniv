@@ -67,6 +67,14 @@ def deleteFriendByFriendID(user_id, friend_id):
         else:
             return jsonify(Error="Method not allowed."), 405
 
+@app.route("/loscaballotesdeuniv/users/<int:user_id>/<string:folder_name>", methods=['GET'])
+def getEmailByFolderAndUserID(user_id, folder_name):
+    # first letter of the folder_name should be uppercase
+    if request.method == 'GET':
+        return EmailHandler().getEmailByFolderAndUserID(user_id, folder_name)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 
 
 

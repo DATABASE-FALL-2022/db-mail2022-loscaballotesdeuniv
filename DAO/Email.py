@@ -47,3 +47,15 @@ class EmailDao:
         eid = cursor.fetchone()[0]
         self.conn.commit()
         return eid
+
+    def getEmailByFolderAndUserID(self, user_id, folder_name):
+        cursor = self.conn.cursor()
+        query = "select email.user_id, email.eid, ename, subject, body, emailtype, isread, wasdeleted, recipientid " \
+                "from email join folders f on email.eid = f.eid where f.user_id = %s and folder_name = %s"
+        cursor.execute(query, (user_id, folder_name,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+

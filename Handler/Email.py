@@ -42,4 +42,15 @@ class EmailHandler:
             dao.delete(user_id, ename)
             return jsonify(DeleteStatus = "OK"), 200
 
+    def getEmailByFolderAndUserID(self, user_id, folder_name):
+        dao = EmailDao()
+        emails_list = dao.getEmailByFolderAndUserID(user_id, folder_name)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_dict(row)
+            result_list.append(result)
+        return jsonify(Emails=result_list)
+
+
+
 
