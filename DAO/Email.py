@@ -51,7 +51,8 @@ class EmailDao:
     def getEmailByFolderAndUserID(self, user_id, folder_name):
         cursor = self.conn.cursor()
         query = "select email.user_id, email.eid, ename, subject, body, emailtype, isread, wasdeleted, recipientid " \
-                "from email join folders f on email.eid = f.eid where f.user_id = %s and folder_name = %s"
+                "from email join folders f on email.eid = f.eid where f.user_id = %s and folder_name = %s" \
+                "ORDER BY eid DESC"
         cursor.execute(query, (user_id, folder_name,))
         result = []
         for row in cursor:
