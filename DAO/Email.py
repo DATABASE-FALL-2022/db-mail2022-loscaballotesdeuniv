@@ -31,3 +31,11 @@ class EmailDao:
         for row in cursor:
             result.append(row)
         return result
+
+    def delete(self, user_id, ename):
+        cursor = self.conn.cursor()
+        query = "delete from email where user_id = %s and ename = %s;"
+        cursor.execute(query, (user_id, ename,))
+        self.conn.commit()
+        return ename
+
