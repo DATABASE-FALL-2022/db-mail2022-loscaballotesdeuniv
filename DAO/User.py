@@ -2,6 +2,7 @@ from Config.dbconfig import pg_config
 import psycopg2
 
 class UserDao:
+
     def __init__ (self):
         connection_url = "dbname=%s user=%s password=%s port=%s host=%s " % (pg_config['dbname'],
                                                             pg_config['user'],

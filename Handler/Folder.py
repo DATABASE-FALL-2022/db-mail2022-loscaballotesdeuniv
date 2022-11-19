@@ -19,3 +19,4 @@ class FolderHandler:
             result = self.build_folder_dict(row)
             result_list.append(result)
         return jsonify(Folders=result_list)
+

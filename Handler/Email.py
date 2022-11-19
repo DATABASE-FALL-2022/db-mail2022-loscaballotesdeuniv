@@ -42,3 +42,4 @@ class EmailHandler:
             dao.delete(user_id, ename)
             return jsonify(DeleteStatus = "OK"), 200
 
+
