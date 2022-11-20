@@ -52,12 +52,18 @@ class FolderDao:
 
     def sendEmail(self, user_id, recipient_id, eid):
         cursor = self.conn.cursor()
-        query1 = "update folders set folder_name = 'Outbox' where user_id = %s and eid = %s and wasdeleted = 'False'"
-        cursor.execute(query1, (user_id, eid,))
+        query1 = "update folders  set folder_name = 'Outbox' where  user_id = (select user_id " \
+                 "from email where email.user_id = %s and email.eid = %s and folder_name = 'Draft' limit 1) and eid = " \
+                 "(select email.eid from email where email.user_id = %s and email.eid = %s limit 1) " \
+                 "and wasdeleted = 'False' returning True"
+        cursor.execute(query1, (user_id, eid, user_id, eid))
         self.conn.commit()
         if cursor:
-            query2 = "insert into folders values (%s, %s, 'Inbox', False)"
-            cursor.execute(query2, (recipient_id, eid))
+            query2 = "insert into folders values ((select recipientid from email where email.user_id = %s" \
+                     " and email.eid = %s and recipientid = %s limit 1), (select email.eid from email " \
+                     "where email.user_id = %s and email.eid = %s and recipientid = %s limit 1), 'Inbox', False) " \
+                     "returning True;"
+            cursor.execute(query2, (user_id, eid, recipient_id, user_id, eid, recipient_id))
             self.conn.commit()
             return True
         else:
