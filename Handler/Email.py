@@ -1,6 +1,7 @@
 from flask import jsonify
 from DAO.Email import EmailDao
 from DAO.Folder import FolderDao
+from DAO.User import UserDao
 
 class EmailHandler:
 
@@ -44,13 +45,15 @@ class EmailHandler:
         return jsonify(Emails=result_list)
 
 
-    def deleteEmail(self, user_id, ename): #to be changed
-        dao = EmailDao()
-        if not dao.getUserEmailsByIDENAME(user_id, ename):
-            return jsonify(Error = "Email not found."), 404
+    def deleteEmail(self, user_id, eid):
+        dao = FolderDao()
+        check = dao.deleteFromFolder(user_id, eid)
+        if check:
+            return jsonify("Email was deleted successfully")
         else:
-            dao.delete(user_id, ename)
-            return jsonify(DeleteStatus = "OK"), 200
+            return jsonify("Error during deletion"), 404
+
+
 
     def getEmailByFolderAndUserID(self, user_id, folder_name):
         dao = EmailDao()

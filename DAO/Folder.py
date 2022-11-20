@@ -27,3 +27,15 @@ class FolderDao:
         cursor.execute(query, (user_id, eid, folder_name, wasdeleted,))
         self.conn.commit()
         return True
+
+    def deleteFromFolder(self, user_id, eid):
+        deleted = True;
+        cursor = self.conn.cursor()
+        query = "update folders set wasdeleted = %s where user_id = %s and eid = %s;"
+        cursor.execute(query, (deleted, user_id, eid,))
+        self.conn.commit()
+        query2 = "update folders set wasdeleted = %s where eid = %s and folder_name = 'Inbox' and " \
+                 "(select premiumuser from users where user_id = %s limit 1) = true;"
+        cursor.execute(query2, (deleted, eid, user_id,))
+        self.conn.commit()
+        return True

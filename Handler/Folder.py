@@ -45,3 +45,16 @@ class FolderHandler:
                 return jsonify(Error="Unexpected attributes in post request"), 400
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def deleteFromFolder(self, user_id, eid):
+        dao = FolderDao()
+        result = dao.deleteFromFolder(user_id, eid)
+        if result == True:
+            return jsonify("Item deleted from folder")
+        else:
+            return jsonify("Error, could not delete"), 404
+
+    def getUserIDByEID(self, eid):
+        dao = FolderDao()
+        folder_list = dao.getUserIDByEID(eid)
+        return jsonify(Folders=folder_list)

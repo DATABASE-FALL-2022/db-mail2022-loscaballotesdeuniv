@@ -40,12 +40,10 @@ def getAllUserCreditCards():
     return CreditCardHandler().getAllUsersCreditCards()
 
 
-@app.route('/loscaballotesdeuniv/users/emails/<int:user_id>/<string:ename>', methods=['GET', 'DELETE'])
+@app.route('/loscaballotesdeuniv/users/emails/<int:user_id>/<string:ename>', methods=['GET'])
 def getUserEmailsByIDENAME(user_id, ename):
     if request.method == 'GET':
         return EmailHandler().getUserEmailsByIDENAME(user_id, ename)
-    elif request.method == 'DELETE':
-        return EmailHandler().deleteEmail(user_id, ename)
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -79,7 +77,9 @@ def getEmailByFolderAndUserID(user_id, folder_name):
         return jsonify(Error="Method not allowed"), 405
 
 
-
+@app.route("/loscaballotesdeuniv/email/deleted/<int:user_id>/<int:eid>", methods=['DELETE']) #remove later
+def deleteEmail(user_id, eid):
+    return EmailHandler().deleteEmail(user_id, eid)
 
 if __name__ == '__main__':
     app.run()

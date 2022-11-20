@@ -109,3 +109,11 @@ class UserHandler:
             return jsonify("FRIEND RELATIONSHIP HAS BEEN DELETED SUCCESSFULLY"), 200
         else:
             return jsonify("NOT FOUND"), 404
+
+    def isPremiumuser(self, user_id):
+        dao = UserDao()
+        result = dao.isPremiumuser(user_id)
+        if result == True:
+            return jsonify("Person is a Premium User")
+        else:
+            return jsonify("Person is Not a Premium User"), 404
