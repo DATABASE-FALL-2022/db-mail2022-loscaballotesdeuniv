@@ -12,7 +12,6 @@ class FolderHandler:
         result['wasdeleted'] = row[3]
         return result
 
-
     def build_folder_attributes(self, user_id, eid, folder_name, wasdeleted):
         result = {}
         result['user_id'] = user_id
@@ -29,9 +28,6 @@ class FolderHandler:
             result = self.build_folder_dict(row)
             result_list.append(result)
         return jsonify(Folders=result_list)
-
-
-
 
     def insertFolderJson(self, json):
         user_id = json['user_id']

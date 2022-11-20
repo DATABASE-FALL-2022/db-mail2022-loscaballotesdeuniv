@@ -44,7 +44,7 @@ class EmailHandler:
         return jsonify(Emails=result_list)
 
 
-    def deleteEmail(self, user_id, ename):
+    def deleteEmail(self, user_id, ename): #to be changed
         dao = EmailDao()
         if not dao.getUserEmailsByIDENAME(user_id, ename):
             return jsonify(Error = "Email not found."), 404
@@ -63,9 +63,6 @@ class EmailHandler:
             return jsonify(Emails=result_list)
         else:
             return jsonify(Error="No emails in the folder"), 404
-
-
-
 
     def createEmailJson(self, json):
         user_id = json['user_id']
