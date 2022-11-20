@@ -42,6 +42,7 @@ class EmailHandler:
         result['recipientid'] = row[6]
         result['folder_name'] = row[7]
         result['wasdeleted'] = row[8]
+        result['wasread'] = row[9]
         return result
 
     def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, recipientid, folder_name, wasdeleted):

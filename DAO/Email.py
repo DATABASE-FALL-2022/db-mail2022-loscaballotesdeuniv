@@ -35,7 +35,7 @@ class EmailDao:
 
     def getAllUsersEmailsByID(self, user_id):
         cursor = self.conn.cursor()
-        query = "select email.user_id, email.eid, ename, subject, body, emailtype, recipientid, folder_name, wasdeleted " \
+        query = "select email.user_id, email.eid, ename, subject, body, emailtype, recipientid, folder_name, wasdeleted, wasread " \
                 "from email join folders as f on email.eid = f.eid " \
                 "where f.user_id = %s " \
                 "and folder_name <> 'Draft' " \
