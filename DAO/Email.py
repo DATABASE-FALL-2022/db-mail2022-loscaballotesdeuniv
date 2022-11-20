@@ -32,7 +32,7 @@ class EmailDao:
             result.append(row)
         return result
 
-    def deleteEmail(self, user_id, ename):
+    def deleteEmail(self, user_id, ename): #tobechanged
         cursor = self.conn.cursor()
         query = "delete from email where user_id = %s and ename = %s;"
         cursor.execute(query, (user_id, ename,))
@@ -42,7 +42,7 @@ class EmailDao:
     def insertNewEmail(self, user_id, ename, subject, body, emailtype, isread, recipientid):
         cursor = self.conn.cursor()
         query = "INSERT INTO email(user_id, ename, subject, body, emailtype, isread, " \
-                "recipientid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning eid;"
+                "recipientid) VALUES (%s, %s, %s, %s, %s, %s, %s) returning eid;"
         cursor.execute(query, (user_id, ename, subject, body, emailtype, isread, recipientid,))
         eid = cursor.fetchone()[0]
         self.conn.commit()
