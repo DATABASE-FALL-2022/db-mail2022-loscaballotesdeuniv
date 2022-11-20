@@ -52,7 +52,7 @@ class EmailHandler:
         if result_list:
             return jsonify(Emails=result_list)
         else:
-            return jsonify(Error="No emails in the folder")
+            return jsonify(Error="No emails in the folder"), 404
 
 
 
