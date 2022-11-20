@@ -1,4 +1,6 @@
 from flask import jsonify
+
+import DAO.Email
 from DAO.Email import EmailDao
 from DAO.Folder import FolderDao
 from DAO.User import UserDao
@@ -126,3 +128,18 @@ class EmailHandler:
                 return jsonify(Error="Unexpected attributes in post request"), 400
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def readEmail(self, user_id, eid):
+        dao = EmailDao()
+
+        email = dao.getEmailInInboxByUserID(user_id, eid)
+        dao.readEmail(user_id, eid)
+
+        result_list = []
+
+        for row in email:
+            result = self.build_email_dict(row)
+            result_list.append(result)
+        return result_list
+
+

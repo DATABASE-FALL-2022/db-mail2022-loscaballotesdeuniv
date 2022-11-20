@@ -109,5 +109,12 @@ def sendEmail(user_id, user_id2, eid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route("/loscaballotesdeuniv/users/<int:user_id>/read-email/<int:eid>/", methods=['GET'])
+def readEmail(user_id, eid):
+    if request.method == 'GET':
+        return EmailHandler().readEmail(user_id, eid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 if __name__ == '__main__':
     app.run()
