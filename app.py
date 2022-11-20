@@ -102,5 +102,12 @@ def getEmailByFolderAndUserID(user_id, folder_name):
 def deleteEmail(user_id, eid):
     return EmailHandler().deleteEmail(user_id, eid)
 
+@app.route("/loscaballotesdeuniv/users/email/deliver/<int:user_id>/<int:user_id2>/<int:eid>", methods=['POST'])
+def sendEmail(user_id, user_id2, eid):
+    if request.method == 'POST':
+        return FolderHandler().sendEmail(user_id, user_id2, eid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 if __name__ == '__main__':
     app.run()

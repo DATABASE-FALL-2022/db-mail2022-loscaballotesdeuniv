@@ -62,3 +62,11 @@ class FolderHandler:
         dao = FolderDao()
         folder_list = dao.getUserIDByEID(eid)
         return jsonify(Folders=folder_list)
+
+    def sendEmail(self, user_id , recipient_id, eid):
+        result = FolderDao().sendEmail(user_id, recipient_id, eid)
+        if result:
+            return jsonify("Email was sent successfully")
+        else:
+            return jsonify(Error="Email could not be sent"), 404
+
