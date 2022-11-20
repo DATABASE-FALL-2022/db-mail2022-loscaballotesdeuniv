@@ -9,6 +9,7 @@ class FolderHandler:
         result['user_id'] = row[0]
         result['eid'] = row[1]
         result['fdname'] = row[2]
+        result['wasdeleted'] = row[3]
         return result
 
     def getAllFolders(self):

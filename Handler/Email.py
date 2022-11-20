@@ -13,8 +13,7 @@ class EmailHandler:
         result['body'] = row[4]
         result['emailtype'] = row[5]
         result['isread'] = row[6]
-        result['wasdeleted'] = row[7]
-        result['recipientid'] = row[8]
+        result['recipientid'] = row[7]
         return result
 
 

@@ -39,19 +39,19 @@ class EmailDao:
         self.conn.commit()
         return ename
 
-    def insertNewEmail(self, user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid):
+    def insertNewEmail(self, user_id, ename, subject, body, emailtype, isread, recipientid):
         cursor = self.conn.cursor()
-        query = "INSERT INTO email(user_id, ename, subject, body, emailtype, isread, wasdeleted, " \
+        query = "INSERT INTO email(user_id, ename, subject, body, emailtype, isread, " \
                 "recipientid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning eid;"
-        cursor.execute(query, (user_id, ename, subject, body, emailtype, isread, wasdeleted, recipientid,))
+        cursor.execute(query, (user_id, ename, subject, body, emailtype, isread, recipientid,))
         eid = cursor.fetchone()[0]
         self.conn.commit()
         return eid
 
     def getEmailByFolderAndUserID(self, user_id, folder_name):
         cursor = self.conn.cursor()
-        query = "select email.user_id, email.eid, ename, subject, body, emailtype, isread, wasdeleted, recipientid " \
-                "from email join folders f on email.eid = f.eid where f.user_id = %s and folder_name = %s" \
+        query = "select email.user_id, email.eid, ename, subject, body, emailtype, isread, recipientid " \
+                "from email join folders f on email.eid = f.eid where f.user_id = %s and folder_name = %s and wasdeleted = false" \
                 "ORDER BY eid DESC"
         cursor.execute(query, (user_id, folder_name,))
         result = []
