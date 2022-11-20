@@ -77,7 +77,7 @@ class EmailHandler:
             edao = EmailDao()
             fdao = FolderDao()
             eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, recipientid)
-            result = self.build_email_attributes(eid, user_id, ename, subject, body, emailtype, isread, recipientid)
+            result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
 
             wasdeleted = False
             draft = "Draft"
