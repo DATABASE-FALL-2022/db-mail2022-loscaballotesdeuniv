@@ -20,3 +20,10 @@ class FolderDao:
         for row in cursor:
             result.append(row)
         return result
+
+    def insertIntoFolder(self, user_id, eid, folder_name, wasdeleted):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO folders(user_id, eid, folder_name, wasdeleted) VALUES (%s, %s, %s, %s);"
+        cursor.execute(query, (user_id, eid, folder_name, wasdeleted,))
+        self.conn.commit()
+        return True

@@ -23,9 +23,12 @@ def getAllUsers():
     elif request.method == 'GET':
         return UserHandler().getAllUsers()
 
-@app.route('/loscaballotesdeuniv/emails', methods=['GET'])
+@app.route('/loscaballotesdeuniv/emails', methods=['GET', 'POST'])
 def getAllUserEmails():
-    return EmailHandler().getAllUsersEmails()
+    if request.method == 'GET':
+        return EmailHandler().getAllUsersEmails()
+    elif request.method == 'POST':
+        return EmailHandler().createEmailJson(request.json)
 
 @app.route('/loscaballotesdeuniv/folders', methods=['GET'])
 def getAllFolders():
