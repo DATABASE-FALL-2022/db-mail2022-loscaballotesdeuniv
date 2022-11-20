@@ -33,6 +33,19 @@ class EmailDao:
             result.append(row)
         return result
 
+    def getAllUsersEmailsByID(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select email.user_id, email.eid, ename, subject, body, emailtype, recipientid, folder_name, wasdeleted " \
+                "from email join folders as f on email.eid = f.eid " \
+                "where f.user_id = %s " \
+                "and folder_name <> 'Draft' " \
+                "and wasdeleted = 'false';"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def deleteEmail(self, user_id, ename): #tobechanged
         #edao = EmailDao()
         # cursor = self.conn.cursor()

@@ -22,3 +22,12 @@ class CreditCardDao:
             result.append(row)
         return result
 
+    def getUsersCreditCardByID(self, user_id):
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM creditcard  where user_id = %s;"
+        cursor.execute(query, (user_id,))
+        self.conn.commit()
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

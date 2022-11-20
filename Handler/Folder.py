@@ -28,6 +28,10 @@ class FolderHandler:
             result = self.build_folder_dict(row)
             result_list.append(result)
         return jsonify(Folders=result_list)
+    def getUsersFolderByID(self, user_id):
+        dao = FolderDao()
+        user_list = dao.getUsersFolderByID(user_id)
+        return jsonify(Users_Folders=user_list)
 
     def insertFolderJson(self, json):
         user_id = json['user_id']

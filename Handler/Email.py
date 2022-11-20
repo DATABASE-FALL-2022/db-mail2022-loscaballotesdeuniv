@@ -29,6 +29,31 @@ class EmailHandler:
         result['recipientid'] = recipientid
         return result
 
+    def build_email_folder_dict(self, row):
+        result = {}
+        result['user_id'] = row[0]
+        result['eid'] = row[1]
+        result['ename'] = row[2]
+        result['subject'] = row[3]
+        result['body'] = row[4]
+        result['emailtype'] = row[5]
+        result['recipientid'] = row[6]
+        result['folder_name'] = row[7]
+        result['wasdeleted'] = row[8]
+        return result
+
+    def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, recipientid, folder_name, wasdeleted):
+        result = {}
+        result['user_id'] = user_id
+        result['eid'] = eid
+        result['ename'] = ename
+        result['subject'] = subject
+        result['body'] = body
+        result['emailtype'] = emailtype
+        result['recipientid'] = recipientid
+        result['folder_name'] = folder_name
+        result['wasdeleted'] = wasdeleted
+        return result
     def getAllUsersEmails(self):
         dao = EmailDao()
         emails_list = dao.getAllUsersEmails()
@@ -41,6 +66,14 @@ class EmailHandler:
         result_list = []
         for row in emails_list:
             result = self.build_email_dict(row)
+            result_list.append(result)
+        return jsonify(Emails=result_list)
+    def getAllUsersEmailsByID(self, user_id):
+        dao = EmailDao()
+        emails_list = dao.getAllUsersEmailsByID(user_id,)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_folder_dict(row)
             result_list.append(result)
         return jsonify(Emails=result_list)
 
