@@ -49,7 +49,10 @@ class EmailHandler:
         for row in emails_list:
             result = self.build_email_dict(row)
             result_list.append(result)
-        return jsonify(Emails=result_list)
+        if result_list:
+            return jsonify(Emails=result_list)
+        else:
+            return jsonify(Error="No emails in the folder")
 
 
 
