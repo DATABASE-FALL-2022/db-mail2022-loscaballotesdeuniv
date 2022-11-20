@@ -23,6 +23,27 @@ def getAllUsers():
     elif request.method == 'GET':
         return UserHandler().getAllUsers()
 
+@app.route('/loscaballotesdeuniv/users/<int:user_id>', methods=['GET'])
+def getUsersByID(user_id):
+   return UserHandler().getUsersByID(user_id)
+
+@app.route('/loscaballotesdeuniv/users/<int:user_id>/folders', methods=['GET'])
+def getUsersFoldersByID(user_id):
+   return FolderHandler().getUsersFolderByID(user_id)
+
+@app.route('/loscaballotesdeuniv/users/<int:user_id>/email', methods=['GET'])
+def getUserEmailByID(user_id):
+   return UserHandler().getUserEmailByID(user_id)
+
+
+@app.route('/loscaballotesdeuniv/users/<int:user_id>/all/emails', methods=['GET'])
+def getAllUsersEmailsByID(user_id):
+   return EmailHandler().getAllUsersEmailsByID(user_id)
+
+@app.route('/loscaballotesdeuniv/users/<int:user_id>/creditcard', methods=['GET'])
+def getUsersCreditCardByID(user_id):
+   return CreditCardHandler().getUsersCreditCardByID(user_id)
+
 @app.route('/loscaballotesdeuniv/emails', methods=['GET', 'POST'])
 def getAllUserEmails():
     if request.method == 'GET':

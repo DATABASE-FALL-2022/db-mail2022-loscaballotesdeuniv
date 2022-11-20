@@ -25,4 +25,7 @@ class CreditCardHandler:
             result_list.append(result)
         return jsonify(CreditCards=result_list)
 
-
+    def getUsersCreditCardByID(self, user_id):
+        dao = CreditCardDao()
+        user_list = dao.getUsersCreditCardByID(user_id)
+        return jsonify(Users_Card=user_list)

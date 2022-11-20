@@ -39,6 +39,16 @@ class UserHandler:
             result_list.append(result)
         return jsonify(Users=result_list)
 
+    def getUsersByID(self, user_id):
+        dao = UserDao()
+        user_list = dao.getUsersByID(user_id)
+        return jsonify(User=user_list)
+
+    def getUserEmailByID(self, user_id):
+        dao = UserDao()
+        emails_list = dao.getUserEmailByID(user_id)
+        return jsonify(Users_Email=emails_list)
+
     def addNewUser(self, form):
         print("form: ", form)
         if len(form) != 8:
