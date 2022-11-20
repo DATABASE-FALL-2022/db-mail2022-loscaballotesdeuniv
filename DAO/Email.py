@@ -46,15 +46,6 @@ class EmailDao:
             result.append(row)
         return result
 
-    def deleteEmail(self, user_id, ename): #tobechanged
-        #edao = EmailDao()
-        # cursor = self.conn.cursor()
-        # query = "delete from email where user_id = %s and ename = %s;"
-        # cursor.execute(query, (user_id, ename,))
-        # self.conn.commit()
-        # return ename'
-        return
-
     def insertNewEmail(self, user_id, ename, subject, body, emailtype, isread, recipientid):
         cursor = self.conn.cursor()
         query = "INSERT INTO email(user_id, ename, subject, body, emailtype, isread, " \
@@ -122,3 +113,31 @@ class EmailDao:
             return False
 
 
+    def editEmail(self, user_id, eid, ename, subject, body, emailtype, isread, recipientid): #Need to later change send function to take a draft, make it into outbox and change the recipient ID, if it has changed
+        cursor = self.conn.cursor()
+        if ename:
+            query = "update email set ename = %s where user_id = %s and eid = %s;"
+            cursor.execute(query, (ename, user_id, eid))
+            self.conn.commit()
+        if subject:
+            query = "update email set subject = %s where user_id = %s and eid = %s;"
+            cursor.execute(query, (subject, user_id, eid))
+            self.conn.commit()
+        if body:
+            query = "update email set body = %s where user_id = %s and eid = %s;"
+            cursor.execute(query, (body, user_id, eid))
+            self.conn.commit()
+        if emailtype:
+            query = "update email set emailtype = %s where user_id = %s and eid = %s;"
+            cursor.execute(query, (emailtype, user_id, eid))
+            self.conn.commit()
+        if recipientid:
+            query = "update email set recipientid = %s where user_id = %s and eid = %s;"
+            cursor.execute(query, (recipientid, user_id, eid))
+            self.conn.commit()
+
+        query = "update email set isread = %s where user_id = %s and eid = %s;"
+        cursor.execute(query, (isread, user_id, eid))
+        self.conn.commit()
+
+        return True

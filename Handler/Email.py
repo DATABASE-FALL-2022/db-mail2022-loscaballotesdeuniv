@@ -143,4 +143,27 @@ class EmailHandler:
             result_list.append(result)
         return result_list
 
+    def editEmail(self, user_id, eid, json):
 
+        edao = EmailDao()
+        udao = UserDao()
+        fdao = FolderDao()
+
+        premiumcheck = udao.isPremiumuser(user_id)
+
+        ename = json['ename']
+        subject = json['subject']
+        body = json['body']
+        emailtype = json['emailtype']
+        isread = False
+        recipientid = json['recipientid']
+
+        if premiumcheck:
+            folder = "Draft"
+            fdao.changeFolder(user_id, eid, folder)
+
+            editcheck = edao.editEmail(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
+            if editcheck:
+                return jsonify("Email has been edited")
+            else:
+                return jsonify("Error while editing")

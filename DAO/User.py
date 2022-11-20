@@ -82,3 +82,11 @@ class UserDao:
         # otherwise, it was deleted, so check if affected_rows != 0
         cursor.close()
         return affected_rows != 0 and affected_rows2 != 0
+
+    def isPremiumuser(self, user_id):
+        cursor = self.conn.cursor()
+        query = "SELECT premiumuser FROM users where user_id = %s"
+        cursor.execute(query, (user_id,))
+        premium = cursor.fetchone()[0]
+        self.conn.commit()
+        return premium
