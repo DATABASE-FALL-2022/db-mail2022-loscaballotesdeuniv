@@ -37,11 +37,11 @@ class UserDao:
         for row in cursor:
             result.append(row)
         return result
-    def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend):
+    def insertNewUser(self, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser):
         cursor = self.conn.cursor()
         query = "INSERT INTO users(firstname, lastname, phone_number, date_of_birth, email, password, " \
-                "premiumuser, isfriend) ""VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning user_id;"
-        cursor.execute(query, (firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend,))
+                "premiumuser) ""VALUES (%s, %s, %s, %s, %s, %s, %s) returning user_id;"
+        cursor.execute(query, (firstname, lastname, phone_number, date_of_birth, email, password, premiumuser,))
         user_id = cursor.fetchone()[0]
         self.conn.commit()
         return user_id
@@ -92,12 +92,12 @@ class UserDao:
         return premium
 
     def isFriend(self, user_id, recipientid):
+        friend = 0
         cursor = self.conn.cursor()
         query = "SELECT friend_id FROM isfriend where user_id = %s and friend_id = %s"
         cursor.execute(query, (user_id, recipientid,))
-        friend = cursor.fetchone()[0]
         self.conn.commit()
-        if friend:
+        if cursor.fetchone() is not None:
             return True
         else:
             return False

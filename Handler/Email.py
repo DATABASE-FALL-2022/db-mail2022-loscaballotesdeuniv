@@ -1,6 +1,5 @@
 from flask import jsonify
 
-import DAO.Email
 from DAO.Email import EmailDao
 from DAO.Folder import FolderDao
 from DAO.User import UserDao
@@ -15,11 +14,34 @@ class EmailHandler:
         result['subject'] = row[3]
         result['body'] = row[4]
         result['emailtype'] = row[5]
-        result['isread'] = row[6]
-        result['recipientid'] = row[7]
+        result['recipientid'] = row[6]
+        return result
+    def build_email_count_dict(self, row):
+        result = {}
+        result['user_id'] = row[0]
+        result['eid'] = row[1]
+        result['ename'] = row[2]
+        result['subject'] = row[3]
+        result['body'] = row[4]
+        result['emailtype'] = row[5]
+        result['recipientid'] = row[6]
+        result['reccount'] = row[7]
         return result
 
-    def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, isread, recipientid):
+    def build_email_count2_dict(self, row):
+        result = {}
+        result['recipientid'] = row[0]
+        result['countf'] = row[1]
+        return result
+
+    def build_email_count3_dict(self, row):
+        result = {}
+        result['user_id'] = row[0]
+        result['email'] = row[1]
+        result['userrecieves'] = row[2]
+        return result
+
+    def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, recipientid):
         result = {}
         result['user_id'] = user_id
         result['eid'] = eid
@@ -27,7 +49,6 @@ class EmailHandler:
         result['subject'] = subject
         result['body'] = body
         result['emailtype'] = emailtype
-        result['isread'] = isread
         result['recipientid'] = recipientid
         return result
 
@@ -43,6 +64,7 @@ class EmailHandler:
         result['folder_name'] = row[7]
         result['wasdeleted'] = row[8]
         result['wasread'] = row[9]
+        result['fromfriend']= row[10]
         return result
 
     def getAllUsersEmails(self):
@@ -97,14 +119,13 @@ class EmailHandler:
         subject = json['subject']
         body = json['body']
         emailtype = json['emailtype']
-        isread = False
         recipientid = json['recipientid']
 
         if user_id and ename and subject and body and emailtype and recipientid:
             edao = EmailDao()
             fdao = FolderDao()
-            eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, recipientid)
-            result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
+            eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, recipientid)
+            result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, recipientid)
 
             wasdeleted = False
             wasread = False
@@ -146,14 +167,13 @@ class EmailHandler:
         subject = json['subject']
         body = json['body']
         emailtype = json['emailtype']
-        isread = False
         recipientid = json['recipientid']
 
         if premiumcheck:
             folder = "Draft"
             foldercheck = fdao.changeFolderOutbox(user_id, eid, folder)
 
-            editcheck = edao.editEmail(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
+            editcheck = edao.editEmail(user_id, eid, ename, subject, body, emailtype, recipientid)
 
             if foldercheck == "Inbox":
                 return jsonify("Inbox emails cannot be edited.")
@@ -176,15 +196,14 @@ class EmailHandler:
         subject = json['subject']
         body = json['body']
         emailtype = json['emailtype']
-        isread = json['isread']
         recipientid = json['recipientid']
 
 
-        if user_id and ename and subject and body and emailtype and isread and recipientid:
+        if user_id and ename and subject and body and emailtype and recipientid:
             edao = EmailDao()
             fdao = FolderDao()
-            eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, recipientid)
-            result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
+            eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, recipientid)
+            result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, recipientid)
 
             wasdeleted = False
             wasread = False
@@ -253,3 +272,39 @@ class EmailHandler:
         dao = EmailDao()
         top10outbox = dao.getTop10UsersWithMoreEmailsOutbox()
         return jsonify(Email_Top10Outbox=top10outbox)
+
+    def getUsersEmailMostRecipients(self, user_id):
+        dao = EmailDao()
+        emails_list = dao.getUsersEmailMostRecipients(user_id)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_count_dict(row)
+            result_list.append(result)
+        return jsonify(EmailMostRecipient=result_list)
+
+    def getUsersEmailMostReplies(self, user_id):
+        dao = EmailDao()
+        emails_list = dao.getUsersEmailMostReplies(user_id)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_count_dict(row)
+            result_list.append(result)
+        return jsonify(EmailMostReplies=result_list)
+
+    def getTop5UsersYouSend(self, user_id):
+        dao = EmailDao()
+        emails_list = dao.getTop5UsersYouSend(user_id)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_count2_dict(row)
+            result_list.append(result)
+        return jsonify(EmailTop5Send=result_list)
+
+    def getTop5UsersYouRecieve(self, user_id):
+        dao = EmailDao()
+        emails_list = dao.getTop5UsersYouRecieve(user_id)
+        result_list = []
+        for row in emails_list:
+            result = self.build_email_count3_dict(row)
+            result_list.append(result)
+        return jsonify(EmailTop5Recieve=result_list)

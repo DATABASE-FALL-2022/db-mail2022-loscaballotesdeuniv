@@ -13,11 +13,10 @@ class UserHandler:
         result['email'] = row[5]
         result['password'] = row[6]
         result['premiumuser'] = row[7]
-        result['isfriend'] = row[8]
         return result
 
     def build_user_attributes(self, user_id, firstname, lastname, phone_number, date_of_birth, email, password,
-                              premiumuser, isfriend):
+                              premiumuser):
         result = {}
         result['user_id'] = user_id
         result['firstname'] = firstname
@@ -27,7 +26,6 @@ class UserHandler:
         result['email'] = email
         result['password'] = password
         result['premiumuser'] = premiumuser
-        result['isfriend'] = isfriend
         return result
 
     def getAllUsers(self):
@@ -60,7 +58,6 @@ class UserHandler:
             email = form['email']
             password = form['password']
             premiumuser = form['premiumuser']
-            isfriend = form['isfriend']
             if firstname and lastname and phonenumber and date_of_birth and \
                     email and password and premiumuser and isfriend:
                 dao = UserDao()
@@ -83,12 +80,10 @@ class UserHandler:
         email = json['email']
         password = json['password']
         premiumuser = json['premiumuser']
-        isfriend = json['isfriend']
-
-        if firstname and lastname and phone_number and date_of_birth and email and password and premiumuser and isfriend:
+        if firstname and lastname and phone_number and date_of_birth and email and password and premiumuser:
             dao = UserDao()
-            user_id = dao.insertNewUser(firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend)
-            result = self.build_user_attributes(user_id, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser, isfriend)
+            user_id = dao.insertNewUser(firstname, lastname, phone_number, date_of_birth, email, password, premiumuser)
+            result = self.build_user_attributes(user_id, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser)
             return jsonify(User=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400

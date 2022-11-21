@@ -80,6 +80,11 @@ class FolderHandler:
                 friend = True
                 fdao.updateFromFriend(user_id, eid, friend)
                 fdao.updateFromFriend(recipient_id, eid, friend)
+                return jsonify("Email was sent successfully")
+            else:
+                friend = False
+                fdao.updateFromFriend(user_id, eid, friend)
+                fdao.updateFromFriend(recipient_id, eid, friend)
             return jsonify("Email was sent successfully")
         else:
             return jsonify(Error="Email could not be sent"), 404
