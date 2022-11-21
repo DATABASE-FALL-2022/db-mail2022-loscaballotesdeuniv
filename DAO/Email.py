@@ -140,3 +140,73 @@ class EmailDao:
         self.conn.commit()
 
         return True
+
+    def getEmailwithMostRecipients(self):
+        cursor = self.conn.cursor()
+        query = "select *, ((select count(eid) as reccount " \
+                "from folders " \
+                "where folder_name = 'Inbox' or folder_name = 'Inbox/Favorite' " \
+                "group by eid " \
+                "order by reccount desc " \
+                "limit 1))" \
+                "from email " \
+                "where eid = (with maxrecipients as (select count(eid) as reccount " \
+                "from folders " \
+                "where folder_name = 'Inbox' or folder_name = 'Inbox/Favorite' " \
+                "group by eid " \
+                "order by reccount desc) " \
+                "select folders.eid " \
+                "from folders natural inner join maxrecipients " \
+                "limit 1) " \
+                "limit 1"
+        cursor.execute(query, )
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getEmailwithMostReplies(self):
+        cursor = self.conn.cursor()
+        query = "with maxreplies as (select count(folder_name) as countf " \
+                "from folders " \
+                "where folder_name = 'Replies' or folder_name = 'Replies/Favorite' " \
+                "group by  eid " \
+                "order by countf desc " \
+                "limit 1)" \
+                "select * " \
+                "from folders natural inner join maxreplies " \
+                "where folder_name = 'Replies' or folder_name = 'Replies/Favorite' " \
+                "limit 1;"
+        cursor.execute(query, )
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getTop10UsersWithMoreEmailsInbox(self):
+        cursor = self.conn.cursor()
+        query = "select user_id, firstname, lastname, email, count(folder_name) as countf " \
+                "from folders natural inner join users " \
+                "where folder_name = 'Inbox' or folder_name = 'Inbox/Favorite' " \
+                "group by  user_id, firstname, lastname, email " \
+                "order by countf desc " \
+                "limit 10;"
+        cursor.execute(query, )
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getTop10UsersWithMoreEmailsOutbox(self):
+        cursor = self.conn.cursor()
+        query = "select user_id, firstname, lastname, email, count(folder_name) as countf " \
+                "from folders natural inner join users " \
+                "where folder_name = 'Outbox' or folder_name = 'Outbox/Favorite' " \
+                "group by  user_id, firstname, lastname, email " \
+                "order by countf desc " \
+                "limit 10;"
+        cursor.execute(query, )
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

@@ -145,6 +145,21 @@ def setFavorite(user_id, eid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route("/loscaballotesdeuniv/email/most_recipients", methods=['GET'])
+def getEmailwithMostRecipients():
+    return EmailHandler().getEmailwithMostRecipients()
+
+@app.route("/loscaballotesdeuniv/email/most_replies", methods=['GET'])
+def getEmailwithMostReplies():
+    return EmailHandler().getEmailwithMostReplies()
+
+@app.route("/loscaballotesdeuniv/email/top10-inbox", methods=['GET'])
+def getTop10UsersWithMoreEmailsInbox():
+    return EmailHandler().getTop10UsersWithMoreEmailsInbox()
+
+@app.route("/loscaballotesdeuniv/email/top10-outbox", methods=['GET'])
+def getTop10UsersWithMoreEmailsOutbox():
+    return EmailHandler().getTop10UsersWithMoreEmailsOutbox()
 
 if __name__ == '__main__':
     app.run()

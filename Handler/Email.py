@@ -233,3 +233,23 @@ class EmailHandler:
                 return jsonify("Email set as favorite.")
         else:
             return jsonify("Error. Could not favorite email."), 404
+
+    def getEmailwithMostRecipients(self):
+        dao = EmailDao()
+        most_recipients = dao.getEmailwithMostRecipients()
+        return jsonify(Email_MostRecipients=most_recipients)
+
+    def getEmailwithMostReplies(self):
+        dao = EmailDao()
+        most_replies = dao.getEmailwithMostReplies()
+        return jsonify(Email_MostReplies=most_replies)
+
+    def getTop10UsersWithMoreEmailsInbox(self):
+        dao = EmailDao()
+        top10inbox = dao.getTop10UsersWithMoreEmailsInbox()
+        return jsonify(Email_Top10Inbox=top10inbox)
+
+    def getTop10UsersWithMoreEmailsOutbox(self):
+        dao = EmailDao()
+        top10outbox = dao.getTop10UsersWithMoreEmailsOutbox()
+        return jsonify(Email_Top10Outbox=top10outbox)
