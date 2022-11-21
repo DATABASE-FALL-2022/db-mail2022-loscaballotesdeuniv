@@ -137,5 +137,14 @@ def makeReplyEmail():
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
+@app.route("/loscaballotesdeuniv/emails/setfavorite/<int:user_id>/<int:eid>", methods = ['POST'])
+def setFavorite(user_id, eid):
+    if request.method == 'POST':
+        return EmailHandler().updateFavorites(user_id, eid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
 if __name__ == '__main__':
     app.run()

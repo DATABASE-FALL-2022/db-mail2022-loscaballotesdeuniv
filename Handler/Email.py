@@ -151,7 +151,7 @@ class EmailHandler:
 
         if premiumcheck:
             folder = "Draft"
-            foldercheck = fdao.changeFolder(user_id, eid, folder)
+            foldercheck = fdao.changeFolderOutbox(user_id, eid, folder)
 
             editcheck = edao.editEmail(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
 
@@ -199,3 +199,37 @@ class EmailHandler:
                 return jsonify(Error="Unexpected attributes in post request"), 400
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def updateFavorites(self, user_id, eid):
+        fdao = FolderDao()
+        foldercheck = fdao.getFolder(user_id, eid)
+        fcheck = False
+        if foldercheck == "Outbox":
+            favorite = "Outbox/Favorite"
+            fcheck = fdao.changeFolder(user_id, eid, favorite)
+        elif foldercheck == "Inbox":
+            favorite = "Inbox/Favorite"
+            fcheck = fdao.changeFolder(user_id, eid, favorite)
+        elif foldercheck == "Replies":
+            favorite = "Replies/Favorite"
+            fcheck = fdao.changeFolder(user_id, eid, favorite)
+
+        elif foldercheck == "Outbox/Favorite":
+            favorite = "Outbox"
+            fcheck = fdao.changeFolder(user_id, eid, favorite)
+        elif foldercheck == "Inbox/Favorite":
+            favorite = "Inbox"
+            fcheck = fdao.changeFolder(user_id, eid, favorite)
+        elif foldercheck == "Replies/Favorite":
+            favorite = "Replies"
+            fcheck = fdao.changeFolder(user_id, eid, favorite)
+        else:
+            return jsonify("Error. Could not favorite email."), 404
+
+        if fcheck:
+            if favorite == "Outbox" or favorite == "Inbox" or favorite == "Replies":
+                return jsonify("Email was removed from favorites.")
+            else:
+                return jsonify("Email set as favorite.")
+        else:
+            return jsonify("Error. Could not favorite email."), 404

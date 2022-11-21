@@ -68,7 +68,7 @@ class FolderDao:
             return True
         else:
             return False
-    def changeFolder(self, user_id, eid, folder_name):
+    def changeFolderOutbox(self, user_id, eid, folder_name):
         cursor = self.conn.cursor()
         previousfolder = self.getFolder(user_id, eid)
         query = "update folders set folder_name = %s where user_id = %s and eid = %s and folder_name = 'Outbox' and " \
@@ -111,3 +111,12 @@ class FolderDao:
         cursor.execute(query, (fromfriend, user_id, eid,))
         self.conn.commit()
         return True
+
+
+    def changeFolder(self, user_id, eid, folder_name):
+        cursor = self.conn.cursor()
+        query = "update folders set folder_name = %s where user_id = %s and eid = %s"
+        cursor.execute(query, (folder_name, user_id, eid,))
+        self.conn.commit()
+        return True
+
