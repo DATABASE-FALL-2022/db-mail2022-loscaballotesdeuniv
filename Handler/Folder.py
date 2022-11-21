@@ -11,15 +11,17 @@ class FolderHandler:
         result['fdname'] = row[2]
         result['wasdeleted'] = row[3]
         result['wasread'] = row[4]
+        result['fromfriend'] = row[5]
         return result
 
-    def build_folder_attributes(self, user_id, eid, folder_name, wasdeleted, wasread):
+    def build_folder_attributes(self, user_id, eid, folder_name, wasdeleted, wasread, fromfriend):
         result = {}
         result['user_id'] = user_id
         result['eid'] = eid
         result['folder_name'] = folder_name
         result['wasdeleted'] = wasdeleted
         result['wasread'] = wasread
+        result['fromfriend'] = fromfriend
         return result
 
     def getAllFolders(self):
@@ -40,12 +42,13 @@ class FolderHandler:
         eid = json['eid']
         folder_name = json['folder_name']
         wasdeleted = json['wasdeleted']
-        wasread = json['wasread']
+        wasread = False
+        fromfriend = json['fromfriend']
 
-        if user_id and eid and folder_name and wasdeleted and wasread:
+        if user_id and eid and folder_name and wasdeleted and fromfriend:
             dao = FolderDao()
-            result = self.build_folder_attributes(user_id, eid, folder_name, wasdeleted, wasread)
-            check = dao.insertIntoFolder(user_id, eid, folder_name, wasdeleted, wasread)
+            result = self.build_folder_attributes(user_id, eid, folder_name, wasdeleted, wasread, fromfriend)
+            check = dao.insertIntoFolder(user_id, eid, folder_name, wasdeleted, wasread, fromfriend)
             if check:
                 return jsonify(Folder=result), 201
             else:
@@ -66,9 +69,16 @@ class FolderHandler:
         folder_list = dao.getUserIDByEID(eid)
         return jsonify(Folders=folder_list)
 
-    def sendEmail(self, user_id , recipient_id, eid):
-        result = FolderDao().sendEmail(user_id, recipient_id, eid)
+    def sendEmail(self, user_id, recipient_id, eid):
+        fdao = FolderDao()
+        udao = UserDao()
+        result = fdao.sendEmail(user_id, recipient_id, eid)
         if result:
+            friendcheck = udao.isFriend(user_id, recipient_id)
+            if friendcheck:
+                friend = True
+                fdao.updateFromFriend(user_id, eid, friend)
+                fdao.updateFromFriend(recipient_id, eid, friend)
             return jsonify("Email was sent successfully")
         else:
             return jsonify(Error="Email could not be sent"), 404

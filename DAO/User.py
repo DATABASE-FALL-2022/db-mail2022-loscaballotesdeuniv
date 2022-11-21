@@ -90,3 +90,14 @@ class UserDao:
         premium = cursor.fetchone()[0]
         self.conn.commit()
         return premium
+
+    def isFriend(self, user_id, recipientid):
+        cursor = self.conn.cursor()
+        query = "SELECT friend_id FROM isfriend where user_id = %s and friend_id = %s"
+        cursor.execute(query, (user_id, recipientid,))
+        friend = cursor.fetchone()[0]
+        self.conn.commit()
+        if friend:
+            return True
+        else:
+            return False

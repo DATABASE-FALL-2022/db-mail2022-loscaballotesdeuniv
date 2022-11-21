@@ -109,19 +109,22 @@ class EmailHandler:
         subject = json['subject']
         body = json['body']
         emailtype = json['emailtype']
-        isread = json['isread']
+        isread = False
         recipientid = json['recipientid']
 
-        if user_id and ename and subject and body and emailtype and isread and recipientid:
+        if user_id and ename and subject and body and emailtype and recipientid:
             edao = EmailDao()
             fdao = FolderDao()
             eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, recipientid)
             result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
 
             wasdeleted = False
+            wasread = False
+            fromfriend = False
+
             draft = "Draft"
 
-            fcheck = fdao.insertIntoFolder(user_id, eid, draft, wasdeleted)
+            fcheck = fdao.insertIntoFolder(user_id, eid, draft, wasdeleted, wasread, fromfriend)
 
             if fcheck:
                 return jsonify(Email=result), 201

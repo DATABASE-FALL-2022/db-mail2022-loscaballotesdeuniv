@@ -31,10 +31,10 @@ class FolderDao:
             result.append(row)
         return result
 
-    def insertIntoFolder(self, user_id, eid, folder_name, wasdeleted, wasread):
+    def insertIntoFolder(self, user_id, eid, folder_name, wasdeleted, wasread, fromfriend):
         cursor = self.conn.cursor()
-        query = "INSERT INTO folders(user_id, eid, folder_name, wasdeleted, wasread) VALUES (%s, %s, %s, %s, %s);"
-        cursor.execute(query, (user_id, eid, folder_name, wasdeleted, wasread,))
+        query = "INSERT INTO folders(user_id, eid, folder_name, wasdeleted, wasread, fromfriend) VALUES (%s, %s, %s, %s, %s, %s);"
+        cursor.execute(query, (user_id, eid, folder_name, wasdeleted, wasread, fromfriend,))
         self.conn.commit()
         return True
 
@@ -55,13 +55,13 @@ class FolderDao:
         query1 = "update folders  set folder_name = 'Outbox' where  user_id = (select user_id " \
                  "from email where email.user_id = %s and email.eid = %s and folder_name = 'Draft' limit 1) and eid = " \
                  "(select email.eid from email where email.user_id = %s and email.eid = %s limit 1) " \
-                 "and wasdeleted = 'False' returning True"
+                 "and wasdeleted = 'False' and fromfriend = 'False' returning True"
         cursor.execute(query1, (user_id, eid, user_id, eid))
         self.conn.commit()
         if cursor:
             query2 = "insert into folders values ((select recipientid from email where email.user_id = %s" \
                      " and email.eid = %s and recipientid = %s limit 1), (select email.eid from email " \
-                     "where email.user_id = %s and email.eid = %s and recipientid = %s limit 1), 'Inbox', False) " \
+                     "where email.user_id = %s and email.eid = %s and recipientid = %s limit 1), 'Inbox', False, False) " \
                      "returning True;"
             cursor.execute(query2, (user_id, eid, recipient_id, user_id, eid, recipient_id))
             self.conn.commit()
@@ -75,7 +75,7 @@ class FolderDao:
                  "(select premiumuser from users where user_id = %s limit 1) = true;"
         cursor.execute(query, (folder_name, user_id, eid, user_id,))
         self.conn.commit()
-        return previousfolder# should return true or false based on the folder_name. False if Inbox, True for every other case
+        return previousfolder
 
 
     def getFolder(self, user_id, eid):
@@ -104,3 +104,10 @@ class FolderDao:
         else:
             return False
 
+
+    def updateFromFriend(self, user_id, eid, fromfriend):
+        cursor = self.conn.cursor()
+        query = "update folders set fromfriend = %s where user_id = %s and eid = %s;"
+        cursor.execute(query, (fromfriend, user_id, eid,))
+        self.conn.commit()
+        return True
