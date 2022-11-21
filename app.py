@@ -130,5 +130,12 @@ def sendReply(user_sent, user_to, reply_eid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route("/loscaballotesdeuniv/users/sendreply", methods = ['POST'])
+def makeReplyEmail():
+    if request.method == 'POST':
+        return EmailHandler().createReplyEmailJson(request.json)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 if __name__ == '__main__':
     app.run()

@@ -169,3 +169,33 @@ class EmailHandler:
             return jsonify("Reply was sent successfully")
         else:
             return jsonify(Error="Reply could not be sent"), 404
+
+    def createReplyEmailJson(self, json):
+        user_id = json['user_id']
+        ename = json['ename']
+        subject = json['subject']
+        body = json['body']
+        emailtype = json['emailtype']
+        isread = json['isread']
+        recipientid = json['recipientid']
+
+
+        if user_id and ename and subject and body and emailtype and isread and recipientid:
+            edao = EmailDao()
+            fdao = FolderDao()
+            eid = edao.insertNewEmail(user_id, ename, subject, body, emailtype, isread, recipientid)
+            result = self.build_email_attributes(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
+
+            wasdeleted = False
+            wasread = False
+            fromfriend = False
+            draft = "DraftToReply"
+
+            fcheck = fdao.insertIntoFolder(user_id, eid, draft, wasdeleted, wasread, fromfriend)
+
+            if fcheck:
+                return jsonify(Email=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400

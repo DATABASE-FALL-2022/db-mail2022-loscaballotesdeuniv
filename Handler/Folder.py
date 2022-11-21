@@ -1,5 +1,6 @@
 from flask import jsonify
 from DAO.Folder import FolderDao
+from DAO.User import UserDao
 
 
 class FolderHandler:
