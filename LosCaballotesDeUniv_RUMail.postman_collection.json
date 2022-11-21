@@ -1,0 +1,824 @@
+{
+	"info": {
+		"_postman_id": "745efe80-a905-48ae-86d7-85c4530fa45e",
+		"name": "LosCaballotesDeUniv_RUMail",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24470939"
+	},
+	"item": [
+		{
+			"name": "getAllFolders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/folders",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"folders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllCreditCards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/creditcards",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"creditcards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "from getAllUsers = create a User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Kristalys\",\r\n    \"lastname\":\"Ruiz\",\r\n    \"phone_number\":\"7877877878\",\r\n    \"date_of_birth\":\"01/01/1998\",\r\n    \"email\":\"kristalys.ruiz@rumail.com\",\r\n    \"password\":\"BestTAEver\",\r\n    \"premiumuser\": \"True\"\r\n    \r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllEmails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/emails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"emails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUserFriends",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/friends/13",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"friends",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteFriendByFriendID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/18/friends/23/delete",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"18",
+						"friends",
+						"23",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addNewFriendByFriendID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\" : \"18\" ,\r\n    \"friend_id\" : \"23\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/friends",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getEmailByFolderAndUserID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/Outbox",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"Outbox"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createEmail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"2\",\r\n    \"ename\": \"Proyecto DB\",\r\n    \"subject\": \"Testiando Final The PostgreSQL\",\r\n    \"body\": \"Este email confirma que nada explota :)\",\r\n    \"emailtype\": \"To\",\r\n    \"isread\": \"false\",\r\n    \"recipientid\": \"35\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/emails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"emails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersFodlersByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/folders",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"folders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUserEmailByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/email",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsersEmailsByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/20/all/emails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"20",
+						"all",
+						"emails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUserCreditCardByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/creditcard",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"creditcard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "readEmail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/read-email/62/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"read-email",
+						"62",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersEmailMostRecipients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/20/mostemails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"20",
+						"mostemails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendReply",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/35/replyto/2/email/62",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"35",
+						"replyto",
+						"2",
+						"email",
+						"62"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReply",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"35\",\r\n    \"ename\": \"Reply\",\r\n    \"subject\": \"ULTIMA PRUEBA\",\r\n    \"body\": \"Van a sacar A :)\",\r\n    \"emailtype\": \"To\",\r\n    \"isread\": \"false\",\r\n    \"recipientid\": \"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/sendreply",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"sendreply"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendEmail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000//loscaballotesdeuniv/users/email/deliver/2/35/61",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"loscaballotesdeuniv",
+						"users",
+						"email",
+						"deliver",
+						"2",
+						"35",
+						"61"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getEmailwithMostRecipients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/email/most_recipients",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"email",
+						"most_recipients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getEmailwithMostReplies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/email/most_replies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"email",
+						"most_replies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTop10UsersWithMoreEmailsInbox",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/email/top10-inbox",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"email",
+						"top10-inbox"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTop10UsersWithMoreEmailsOutbox",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/email/top10-outbox",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"email",
+						"top10-outbox"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersEmailWithMostRecipient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000//loscaballotesdeuniv/users/2/mostrecipients",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"mostrecipients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersEmailWithMostReplies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/10/mostreplies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"10",
+						"mostreplies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTop5UsersSends",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/top5send",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"top5send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTop5UsersRecieves",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/2/top5recieve",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"2",
+						"top5recieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "greeting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editEmail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ename\":\"Project DB\",\r\n    \"subject\":\"Test Final The PostgreSQL2\",\r\n    \"body\":\"Este email confirma que nada explota :) Also confirma que lo editamos\",\r\n    \"emailtype\":\"To\",\r\n    \"recipientid\":\"35\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/users/edit/2/editemail/61",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"users",
+						"edit",
+						"2",
+						"editemail",
+						"61"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setfavorite",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/loscaballotesdeuniv/emails/setfavorite/2/62",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"loscaballotesdeuniv",
+						"emails",
+						"setfavorite",
+						"2",
+						"62"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
