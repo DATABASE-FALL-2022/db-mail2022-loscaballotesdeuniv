@@ -45,18 +45,6 @@ class EmailHandler:
         result['wasread'] = row[9]
         return result
 
-    def build_email_attributes(self, user_id, eid, ename, subject, body, emailtype, recipientid, folder_name, wasdeleted):
-        result = {}
-        result['user_id'] = user_id
-        result['eid'] = eid
-        result['ename'] = ename
-        result['subject'] = subject
-        result['body'] = body
-        result['emailtype'] = emailtype
-        result['recipientid'] = recipientid
-        result['folder_name'] = folder_name
-        result['wasdeleted'] = wasdeleted
-        return result
     def getAllUsersEmails(self):
         dao = EmailDao()
         emails_list = dao.getAllUsersEmails()
