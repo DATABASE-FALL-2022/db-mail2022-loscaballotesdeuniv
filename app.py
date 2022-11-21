@@ -123,5 +123,12 @@ def editEmail(user_id, eid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route("/loscaballotesdeuniv/users/<int:user_sent>/replyto/<int:user_to>/email/<int:reply_eid>", methods = ['POST'])
+def sendReply(user_sent, user_to, reply_eid):
+    if request.method == 'POST':
+        return EmailHandler().sendEmailAsReply(user_sent, user_to, reply_eid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 if __name__ == '__main__':
     app.run()

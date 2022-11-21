@@ -112,7 +112,6 @@ class EmailDao:
         else:
             return False
 
-
     def editEmail(self, user_id, eid, ename, subject, body, emailtype, isread, recipientid): #Need to later change send function to take a draft, make it into outbox and change the recipient ID, if it has changed
         cursor = self.conn.cursor() #must be optimized
         if ename:

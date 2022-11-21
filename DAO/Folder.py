@@ -85,3 +85,22 @@ class FolderDao:
         folder = cursor.fetchone()[0]
         self.conn.commit()
         return folder
+
+    def sendReplyEmail(self, user_sent, user_to, reply_eid):
+        cursor = self.conn.cursor()
+        query1 = "update folders  set folder_name = 'Outbox' where  user_id = (select user_id " \
+                 "from email where email.user_id = %s and email.eid = %s and folder_name = 'DraftToReply' " \
+                 "limit 1) and eid = " \
+                 "(select email.eid from email where email.user_id = %s and email.eid = %s limit 1) " \
+                 "and wasdeleted = 'False'  returning True"
+        cursor.execute(query1, (user_sent, reply_eid, user_sent, reply_eid))
+        self.conn.commit()
+        if cursor:
+            query2 = "insert into folders values (%s, %s, 'Replies', False, False, False) " \
+                     "returning True;"
+            cursor.execute(query2, (user_to, reply_eid,))
+            self.conn.commit()
+            return True
+        else:
+            return False
+

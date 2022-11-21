@@ -171,3 +171,10 @@ class EmailHandler:
                     return jsonify("Email has been edited")
                 else:
                     return jsonify("Error while editing")
+
+    def sendEmailAsReply(self, user_sent, user_to, reply_eid):
+        result = FolderDao().sendReplyEmail(user_sent, user_to, reply_eid)
+        if result:
+            return jsonify("Reply was sent successfully")
+        else:
+            return jsonify(Error="Reply could not be sent"), 404
