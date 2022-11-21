@@ -160,10 +160,14 @@ class EmailHandler:
 
         if premiumcheck:
             folder = "Draft"
-            fdao.changeFolder(user_id, eid, folder)
+            foldercheck = fdao.changeFolder(user_id, eid, folder)
 
             editcheck = edao.editEmail(user_id, eid, ename, subject, body, emailtype, isread, recipientid)
-            if editcheck:
-                return jsonify("Email has been edited")
+
+            if foldercheck == "Inbox":
+                return jsonify("Inbox emails cannot be edited.")
             else:
-                return jsonify("Error while editing")
+                if editcheck:
+                    return jsonify("Email has been edited")
+                else:
+                    return jsonify("Error while editing")

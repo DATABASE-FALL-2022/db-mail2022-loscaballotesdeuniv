@@ -70,8 +70,18 @@ class FolderDao:
             return False
     def changeFolder(self, user_id, eid, folder_name):
         cursor = self.conn.cursor()
+        previousfolder = self.getFolder(user_id, eid)
         query = "update folders set folder_name = %s where user_id = %s and eid = %s and folder_name = 'Outbox' and " \
                  "(select premiumuser from users where user_id = %s limit 1) = true;"
         cursor.execute(query, (folder_name, user_id, eid, user_id,))
         self.conn.commit()
-        return True # should return true or false based on the folder_name. False if Inbox, True for every other case
+        return previousfolder# should return true or false based on the folder_name. False if Inbox, True for every other case
+
+
+    def getFolder(self, user_id, eid):
+        cursor = self.conn.cursor()
+        query = "select folder_name from folders where user_id=%s and eid = %s;"
+        cursor.execute(query, (user_id, eid,))
+        folder = cursor.fetchone()[0]
+        self.conn.commit()
+        return folder

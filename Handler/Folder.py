@@ -72,4 +72,3 @@ class FolderHandler:
             return jsonify("Email was sent successfully")
         else:
             return jsonify(Error="Email could not be sent"), 404
-
