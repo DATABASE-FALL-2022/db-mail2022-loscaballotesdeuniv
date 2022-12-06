@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "axios": "^1.2.1",
+    "recharts": "^2.1.16",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4"
+  }
+}
