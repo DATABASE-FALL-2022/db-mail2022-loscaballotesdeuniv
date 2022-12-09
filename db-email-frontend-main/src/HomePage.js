@@ -1,7 +1,6 @@
 import React, {Component, useState} from 'react';
 import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
-
-
+import {Link} from "react-router-dom";
 
 function HomePage() {
     const [open, setOpen] = useState(false);
@@ -10,17 +9,17 @@ function HomePage() {
         setOpen(true);
     }
 
-    return (<Segment><Header dividing textAlign="center" size="huge">Welcome to DB Demo</Header>
+    return (<Segment><Header dividing textAlign="center" size="huge">Welcome to DB RUMail</Header>
             <Modal
                 centered={false}
                 open={open}
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
             >
-                <Modal.Header>Needs changing!</Modal.Header>
+                <Modal.Header>Wrong User Credentials</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        This is a modal but it serves to show how buttons and functions can be implemented.
+                        Manuel said no no no no, try again si si si si.
                     </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
@@ -48,7 +47,7 @@ function HomePage() {
                         </Form>
                     </Grid.Column>
                     <Grid.Column verticalAlign='middle'>
-                        <Button content='Sign up' icon='signup' size='big' onClick={handleChange}/>
+                        <Button as={Link} to='/loscaballotesdeuniv/SignUp' content='Sign up' icon='signup' size='big' />
                     </Grid.Column>
                 </Grid>
 
@@ -57,4 +56,6 @@ function HomePage() {
         </Segment>
     )
 }
+
+
 export default HomePage;
