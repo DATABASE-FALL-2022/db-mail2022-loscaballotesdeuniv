@@ -8,12 +8,6 @@ function UserView(){
     const [notShow, setNotShow] = useState(false)
     const panes = [
         {
-            menuItem: 'Inbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
-        },
-        {
-            menuItem: 'Outbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
-        },
-        {
             menuItem: 'Profile', render: () => <Tab.Pane active={isAuth}>:) <Card>
                 <Card.Content>
                     <Card.Header>Matthew</Card.Header>
@@ -34,6 +28,21 @@ function UserView(){
         },
         {
             menuItem: 'Friend List', render: () => <Tab.Pane active={isAuth}><Dashboard/></Tab.Pane>
+        },
+        {
+            menuItem: 'Inbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Outbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Favorites', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Deleted', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Drafts', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
         },
         {
             menuItem: 'Dashboard', render: () => <Tab.Pane active={isAuth}><Dashboard/></Tab.Pane>

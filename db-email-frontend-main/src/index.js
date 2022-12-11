@@ -19,7 +19,6 @@ root.render(
             <Route exact path="/loscaballotesdeuniv/UserView" element={<UserView/>} />
             <Route exact path="/loscaballotesdeuniv/Dashboard" element={<Dashboard/>} />
             <Route exact path="/loscaballotesdeuniv/SignUp" element={<SignUp/>} />
-            <Route exact path="/" element={<SignUp/>} />
         </Routes>
     </BrowserRouter>
 );
