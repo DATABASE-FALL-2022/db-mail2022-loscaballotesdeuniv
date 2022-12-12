@@ -47,31 +47,6 @@ class UserHandler:
         emails_list = dao.getUserEmailByID(user_id)
         return jsonify(Users_Email=emails_list)
 
-    def addNewUser(self, form):
-        print("form: ", form)
-        if len(form) != 8:
-            return jsonify(Error="Malformed post request"), 400
-            firstname = form['firstname']
-            lastname = form['lastname']
-            phone_number = form['phone_number']
-            date_of_birth = form['date_of_birth']
-            email = form['email']
-            password = form['password']
-            premiumuser = form['premiumuser']
-            if firstname and lastname and phonenumber and date_of_birth and \
-                    email and password and premiumuser and isfriend:
-                dao = UserDao()
-                user_id = dao.insertNewUser(firstname, lastname, phonenumber,
-                                            date_of_birth, email, password, premiumuser,isfriend)
-
-                result = self.build_user_attributes(user_id, firstname, lastname, phonenumber, date_of_birth,
-                                                    email, password, premiumuser, isfriend)
-                json["user_id"] = user_id
-                return jsonify(json), 201
-            else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
-
-
     def addNewUserJson(self, json):
         firstname = json['firstname']
         lastname = json['lastname']
@@ -79,8 +54,8 @@ class UserHandler:
         date_of_birth = json['date_of_birth']
         email = json['email']
         password = json['password']
-        premiumuser = json['premiumuser']
-        if firstname and lastname and phone_number and date_of_birth and email and password and premiumuser:
+        premiumuser = 'false'
+        if firstname and lastname and phone_number and date_of_birth and email and password:
             dao = UserDao()
             user_id = dao.insertNewUser(firstname, lastname, phone_number, date_of_birth, email, password, premiumuser)
             result = self.build_user_attributes(user_id, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser)
