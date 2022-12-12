@@ -79,8 +79,8 @@ class UserHandler:
         date_of_birth = json['date_of_birth']
         email = json['email']
         password = json['password']
-        premiumuser = json['premiumuser']
-        if firstname and lastname and phone_number and date_of_birth and email and password and premiumuser:
+        premiumuser = 'false'
+        if firstname and lastname and phone_number and date_of_birth and email and password:
             dao = UserDao()
             user_id = dao.insertNewUser(firstname, lastname, phone_number, date_of_birth, email, password, premiumuser)
             result = self.build_user_attributes(user_id, firstname, lastname, phone_number, date_of_birth, email, password, premiumuser)
