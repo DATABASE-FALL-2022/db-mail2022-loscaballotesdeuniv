@@ -1,4 +1,5 @@
 import logo from './RUMail_Logo.png';
+import logo2 from './PremiumUserTag.png';
 import './App.css';
 import React from 'react'
 import { Button } from 'semantic-ui-react'
@@ -10,6 +11,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+            <img style={{ width: 250, height: 150 }} src={logo2} alt="logo2" />
           <p>
             <code>Los Caballotes de UNIV Present: </code>
           </p>

@@ -2,6 +2,7 @@ import React, {Component, useState} from 'react';
 import {Button, Card, Container, List, Modal, SegmentGroup, Tab} from "semantic-ui-react";
 import AllEmails from "./AllEmails";
 
+
 function Emails() {
     const [data, setData] = useState("show");
     let random_info = [{"subject": "p1", "content": "la vida y sus complications", "stuff": "description"},

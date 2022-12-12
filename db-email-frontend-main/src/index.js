@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import './index.css';
-import '../node_modules/semantic-ui-css/semantic.min.css'
+import '../node_modules/semantic-ui-css/semantic.min.css';
 import HomePage from "./HomePage";
 import UserView from "./UserView";
 import Dashboard from "./Dashboard";
