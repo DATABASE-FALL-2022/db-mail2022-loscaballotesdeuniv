@@ -3,6 +3,7 @@ import './App.css';
 import React from 'react'
 import { Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import FetchAPI from "./components/FetchApi";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           </a>
             <p>
             <Button.Group>
-                <Button as={Link} to='/loscaballotesdeuniv/home'>Login</Button>
+                <Button as={Link} to='/loscaballotesdeuniv/login'>Login</Button>
                 <Button.Or />
                 <Button positive as={Link} to='/loscaballotesdeuniv/SignUp'>Sign Up</Button>
             </Button.Group>

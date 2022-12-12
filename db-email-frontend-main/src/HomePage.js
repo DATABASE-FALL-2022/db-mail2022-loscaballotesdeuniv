@@ -1,6 +1,7 @@
 import React, {Component, useState} from 'react';
 import {Button, Divider, Form, Grid, Header, Modal, Segment, Tab} from 'semantic-ui-react';
 import {Link} from "react-router-dom";
+import Axios from 'axios';
 
 function HomePage() {
     const [open, setOpen] = useState(false);
@@ -56,6 +57,5 @@ function HomePage() {
         </Segment>
     )
 }
-
 
 export default HomePage;
