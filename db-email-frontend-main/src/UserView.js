@@ -2,17 +2,12 @@ import React, {Component, useState} from 'react';
 import {Button, Card, Container, Divider, Header, Icon, Image, Modal, Tab} from "semantic-ui-react";
 import Dashboard from "./Dashboard";
 import Emails from "./Emails";
+import CreateEmail from "./createEmail";
 
 function UserView(){
     const [isAuth, setIsAuth] = useState(true)
     const [notShow, setNotShow] = useState(false)
     const panes = [
-        {
-            menuItem: 'Inbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
-        },
-        {
-            menuItem: 'Outbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
-        },
         {
             menuItem: 'Profile', render: () => <Tab.Pane active={isAuth}>:) <Card>
                 <Card.Content>
@@ -36,8 +31,26 @@ function UserView(){
             menuItem: 'Friend List', render: () => <Tab.Pane active={isAuth}><Dashboard/></Tab.Pane>
         },
         {
+            menuItem: 'Inbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Outbox', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Favorites', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Deleted', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
+            menuItem: 'Drafts', render: () => <Tab.Pane active={isAuth}><Container><Header>Anything you need to put here</Header><Divider/></Container><Emails/></Tab.Pane>
+        },
+        {
             menuItem: 'Dashboard', render: () => <Tab.Pane active={isAuth}><Dashboard/></Tab.Pane>
-        }
+        },
+        {
+            menuItem: 'Create Email', render: () => <Button active={isAuth}><CreateEmail/></Button>
+        },
     ]
 
     return <Tab panes={panes}/>
